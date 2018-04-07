@@ -16,14 +16,14 @@ gl = r$To
 names(gl) = r$From
 
 out[['general_lysosome_regulators']] = init_teQTL( gl, tissues, edges , genes , netTS , expTS  ,
-                                                          minTS=0 , rand=n , onlyCanonical=T,filePrefix='general_lysosome_regulators')
+                        minTS=0 , rand=n , onlyCanonical=T,filePrefix='general_lysosome_regulators')
 ########### Cholesterol
 r = read.table('cholesterol_biosynthesis.txt',sep='\t',header=T)
 gl = r$To
 names(gl) = r$From
 
 out[['general_cholesterol_regulators']] = init_teQTL( gl, tissues, edges , genes , netTS , expTS  ,
-                                                               minTS=0 , rand=n , onlyCanonical=T,filePrefix='general_cholesterol_regulators')
+                        minTS=0 , rand=n , onlyCanonical=T,filePrefix='general_cholesterol_regulators')
 
 ########### Iron Metabolism
 r = read.table('Cellular_iron_msigdb.txt',sep='\t',header=F)
@@ -32,7 +32,7 @@ gl = r$To
 names(gl) = r$From
 
 out[['Cellular_iron_regulators']] = init_teQTL( gl, tissues=c('liver'), edges , genes , netTS , expTS  ,
-                                                         minTS=0 , rand=n , onlyCanonical=T,filePrefix='Cellular_iron_regulators')
+                        minTS=0 , rand=n , onlyCanonical=T,filePrefix='Cellular_iron_regulators')
 
 ######
 
@@ -42,11 +42,13 @@ for(n in names(out)){
 }
 ### gen correlation
 for(n in names(out)){
-  out[[n]] = gen_cor( out[[n]], out[[n]]$gl, tissues , genes , exp,samples ,filePrefix=n,thresh=.9,dosave=T,meancor=.05)
+  out[[n]] = gen_cor( out[[n]], out[[n]]$gl, tissues , genes , exp,samples ,
+                        filePrefix=n,thresh=.9,dosave=T,meancor=.05)
 }
 ### gen regressions
 for(n in names(out)){
-  out[[n]] = gen_regression(out[[n]], out[[n]]$gl, tissues , genes , exp,samples ,filePrefix=n,thresh=.9,dosave=T,min=2)
+  out[[n]] = gen_regression(out[[n]], out[[n]]$gl, tissues , genes , exp,samples ,
+                        filePrefix=n,thresh=.9,dosave=T,min=2)
 }
 ### save
 save(out,file='tfs.rda')
