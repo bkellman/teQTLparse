@@ -1,6 +1,9 @@
 # teQTLparse - trans-eQTL parse
 A package which parses and ranks predicted trans-eQTLs predicted in [Sonawane 2017](https://doi.org/10.1016/j.celrep.2017.10.001). teQTLparse compares the number of times each predicted TF maps to a given gene list. It compares that number of hits to the expected hits of an arbitrary TF in a random genelist and the expected hits of that specific TF in a random genelist. This comparison is made simply using a cummulative distribution describing the results of multiple random gene list queries.
 
+## Further Explanation
+Please see the slideshow: RegulatorPredictor.pptx
+
 # Example: Cholesterol, Lysosome, and Iron Metabolism Pathway Regulation
 ```R
 load('GTEx_PANDA_tissues.RData')
