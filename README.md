@@ -1,21 +1,21 @@
 # teQTLparse - trans-eQTL parse
-A package which parses and ranks predicted trans-eQTLs predicted in [Sonawane 2017](https://doi.org/10.1016/j.celrep.2017.10.001). teQTLparse compares the number of times each predicted TF maps to a given gene list. It compares that number of hits to the expected hits of an arbitrary TF in a random genelist and the expected hits of that specific TF in a random genelist. This comparison is made simply using a cummulative distribution describing the results of multiple random gene list queries.
+A package which parses and ranks predicted trans-eQTLs predicted in [Sonawane 2017](https://doi.org/10.1016/j.celrep.2017.10.001). teQTLparse compares the number of times each predicted TF maps to a given gene list. It compares that number of hits to the expected hits of an arbitrary TF in a random gene list and the expected hits of that specific TF in a random gene list. This comparison is made simply using a cumulative distribution describing the results of multiple random gene list queries.
 
 ## Further Explanation
 Please see the slideshow: RegulatorPredictor.pptx
 
 # Example: Cholesterol, Lysosome, and Iron Metabolism KEGG Pathway Regulators
 
-Input and Output for these examples can be found in the "examples" folder. Each KEGG pathway is formated in a .txt file. The init_teQTL function reads the number of times genes in the given genelist are predicted to be regulated and the identity of the predicted TF. n-random genelists, with the same number of genes as the given gene list, are also queried to create a background frequency for any TF as well as specific TFs; frequency with which they are found to regulate genes in a random gene list. The percentile of predicted regulation ("occurances") for each TF is recorded and expanded into output files:
+Input and Output for these examples can be found in the "examples" folder. Each KEGG pathway is formated in a ".txt" file: col1 is gene names, col2 is Ensembl gene ids. The init_teQTL function reads the number of times genes in the given gene list are predicted to be regulated and the identity of the predicted TF. n-random gene lists, with the same number of genes as the given gene list, are also queried to create a background frequency for any TF as well as specific TFs; the frequency with which they are found to regulate genes in a random gene list. The percentile of predicted regulation ("occurrences") for each TF is recorded and expanded into output files:
 - <filename>.xlsx contains the core output in five columns: 
 -- names: predicted TF
--- occurance: number of times this TF was predicted to regulate a gene in the gene list
--- cdf_all: percentile of this TFs occurances compared to the occurance frequency for ANY TF
--- cdf_spec: percentile of this TFs occurances compared to the occurance frequency for THIS TF
+-- occurrence: number of times this TF was predicted to regulate a gene in the gene list
+-- cdf_all: percentile of this TFs occurrences compared to the occurrence frequency for ANY TF
+-- cdf_spec: percentile of this TFs occurrences compared to the occurrence frequency for THIS TF
 -- gene_assc: genes from the gene list predicted to be regulated by this TF
-- <filename>.percentile.pdf contains the xlsx data reformated as a heatmap to help highlight groups of coregulated and coregulating genes and TFs respectively
-- <filename>.correlation.pdf contains the spearman correlation between genelist and TF genes from the GTEx expression data.
-- <filename>.regressions.pdf is a first pass as most specifically describing the correlation between target (genelist) and regulators (TFs) using multiple regression (univariate selection followed by backward model selection with interactions). This is a temporary implimentation, later iteration with use the [RegressionPipeline](https://github.com/LewisLabUCSD/RegressionModelPipeline)
+- <filename>.percentile.pdf contains the xlsx data reformated as a heatmap to help highlight groups of coregulated and co-regulating genes and TFs respectively
+- <filename>.correlation.pdf contains the Spearman correlation between gene list and TF genes from the GTEx expression data.
+- <filename>.regressions.pdf is the first pass as most specifically describing the correlation between each target (generalist) and regulators (TFs) using multiple regression (univariate selection followed by backward model selection with interactions). These results are from a temporary implementation, later iteration with use the [RegressionPipeline](https://github.com/LewisLabUCSD/RegressionModelPipeline)
 
 ```R
 # download GTEx PANDA tissues Rdata from: https://doi.org/10.5281/zenodo.838734
