@@ -4,8 +4,21 @@ A package which parses and ranks predicted trans-eQTLs predicted in [Sonawane 20
 ## Further Explanation
 Please see the slideshow: RegulatorPredictor.pptx
 
-# Example: Cholesterol, Lysosome, and Iron Metabolism Pathway Regulation
+# Example: Cholesterol, Lysosome, and Iron Metabolism KEGG Pathway Regulators
+
+Input and Output for these examples can be found in the "examples" folder. Each KEGG pathway is formated in a .txt file. The init_teQTL function reads the number of times genes in the given genelist are predicted to be regulated and the identity of the predicted TF. n-random genelists, with the same number of genes as the given gene list, are also queried to create a background frequency for any TF as well as specific TFs; frequency with which they are found to regulate genes in a random gene list. The percentile of predicted regulation ("occurances") for each TF is recorded and expanded into output files:
+- <filename>.xlsx contains the core output in five columns: 
+-- names: predicted TF
+-- occurance: number of times this TF was predicted to regulate a gene in the gene list
+-- cdf_all: percentile of this TFs occurances compared to the occurance frequency for ANY TF
+-- cdf_spec: percentile of this TFs occurances compared to the occurance frequency for THIS TF
+-- gene_assc: genes from the gene list predicted to be regulated by this TF
+- <filename>.percentile.pdf contains the xlsx data reformated as a heatmap to help highlight groups of coregulated and coregulating genes and TFs respectively
+- <filename>.correlation.pdf contains the spearman correlation between genelist and TF genes from the GTEx expression data.
+- <filename>.regressions.pdf is a first pass as most specifically describing the correlation between target (genelist) and regulators (TFs) using multiple regression (univariate selection followed by backward model selection with interactions). This is a temporary implimentation, later iteration with use the [RegressionPipeline](https://github.com/LewisLabUCSD/RegressionModelPipeline)
+
 ```R
+# download GTEx PANDA tissues Rdata from: https://doi.org/10.5281/zenodo.838734
 load('GTEx_PANDA_tissues.RData')
 
 out=list()
