@@ -24,7 +24,9 @@ gen_cor <- function(obj, gl, tissues , genes , exp,samples ,filePrefix='file',th
         TFi=obj$TF_sel$names[i]
         TFid=as.character(genes$Name)[as.character(genes$Symbol)==TFi]
         gid=gl[names(gl)==g]
+        if(length(gid)>1){stop('ambiguous gene names. please confirm that official gene names are unique')}
         TSidx = samples$Tissue %in% tissues
+
         cr_all[TFi,g] = cor( exp[ TFid , ] , exp[ gid , ] , method='spearman')
         cr_spec[TFi,g] = cor( exp[ TFid , TSidx ] , exp[ gid , TSidx ] , method='spearman')
       }
