@@ -5,7 +5,7 @@
 \title{Generate Heatmaps}
 \usage{
 gen_heatmap(obj, gl, filePrefix = "file", thresh = 0.9, dosave = T,
-  minNeglog10Perc = 1)
+  minNeglog10Perc = 1, ...)
 }
 \arguments{
 \item{obj}{an teQTL class object that has been initialized using "init_teQTL"}
@@ -17,6 +17,8 @@ gen_heatmap(obj, gl, filePrefix = "file", thresh = 0.9, dosave = T,
 \item{thresh}{number [0,1], minimum cummulative probability of TF occcurances. default is .9}
 
 \item{dosave}{boolean, if true, the regression visualization will be saved in the location specified by the filePrefix}
+
+\item{...}{parameters to be passed to the pdf function e.g. height and width}
 
 \item{min}{number, minimum -log10(cummulative probability of TF occcurances), default is 1}
 }

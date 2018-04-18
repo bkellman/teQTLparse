@@ -11,10 +11,12 @@
 #' @param thresh number [0,1], minimum cummulative probability of TF occcurances. default is .9
 #' @param dosave boolean, if true, the regression visualization will be saved in the location specified by the filePrefix
 #' @param meancor number, minimum correlation to be included in the visualization
+#' @param ... parameters to be passed to the pdf function e.g. height and width
 #' @return object of class "init_teQTL" extended to contain gene expression correlation between Targets and TFs in obj$cr_TSspec (only specified tissues) and obj$cr_all (all tissues) respectively
 #' @export
 #'
-gen_cor <- function(obj, gl, tissues , genes , exp,samples ,filePrefix='file',thresh=.9,dosave=T,meancor=.1){
+gen_cor <- function(obj, gl, tissues , genes , exp,samples ,filePrefix='file',thresh=.9,dosave=T,meancor=.1,...){
+  print('generate correlations')
   if(sum(names(obj)%in%c('TF_v_targets.cdf_spec','TF_v_targets.cdf_all'))<2){stop('must run gen_heatmap before gen_cor')}
   cr_spec = matrix(0,nrow=length(unique(obj$TF_sel$names)),ncol=length(names(gl)),dimnames=list(unique(obj$TF_sel$names),names(gl)))
   cr_all = matrix(0,nrow=length(unique(obj$TF_sel$names)),ncol=length(names(gl)),dimnames=list(unique(obj$TF_sel$names),names(gl)))
@@ -34,7 +36,7 @@ gen_cor <- function(obj, gl, tissues , genes , exp,samples ,filePrefix='file',th
   }
 
   if(dosave){
-    pdf(paste0(filePrefix,'.correlation.pdf'),height=30,width=20)
+    pdf(paste0(filePrefix,'.correlation.pdf'),...)
     heatmap.2(cr_spec[rowMeans(abs(cr_spec))>meancor,],trace='none',main=paste('spearman correlation\n',paste(tissues,collapse=',')),mar=c(8,8),col=cm.colors)
     heatmap.2(cr_all[rowMeans(abs(cr_all))>meancor,],trace='none',main='spearman correlation',mar=c(8,8),col=cm.colors)
     dev.off()

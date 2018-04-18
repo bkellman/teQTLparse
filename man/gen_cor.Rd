@@ -5,7 +5,7 @@
 \title{Generate Heatmaps}
 \usage{
 gen_cor(obj, gl, tissues, genes, exp, samples, filePrefix = "file",
-  thresh = 0.9, dosave = T, meancor = 0.1)
+  thresh = 0.9, dosave = T, meancor = 0.1, ...)
 }
 \arguments{
 \item{obj}{an teQTL class object that has been initialized using "init_teQTL"}
@@ -27,6 +27,8 @@ gen_cor(obj, gl, tissues, genes, exp, samples, filePrefix = "file",
 \item{dosave}{boolean, if true, the regression visualization will be saved in the location specified by the filePrefix}
 
 \item{meancor}{number, minimum correlation to be included in the visualization}
+
+\item{...}{parameters to be passed to the pdf function e.g. height and width}
 }
 \value{
 object of class "init_teQTL" extended to contain gene expression correlation between Targets and TFs in obj$cr_TSspec (only specified tissues) and obj$cr_all (all tissues) respectively
