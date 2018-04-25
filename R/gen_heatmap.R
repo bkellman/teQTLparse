@@ -26,9 +26,9 @@ gen_heatmap <- function( obj, gl ,filePrefix='file',thresh=.9,dosave=T,minNeglog
 
   if(dosave){
     pdf(paste0(filePrefix,'.percentile.pdf'),...)
-    heatmap.2(tmp1[rowSums(tmp1)>minNeglog10Perc,],trace='none',
+    heatmap.2(tmp1[rowSums(tmp1)>minNeglog10Perc,],trace='none',col=rev(heat.colors(100)),  #col=brewer.pal(5, "YlOrRd"),
               main='-log10(1-percentile(# of targets hit))\nrelative to ALL TFs with random targets',mar=c(8,8))
-    heatmap.2(tmp2[rowSums(tmp2)>minNeglog10Perc,],trace='none',
+    heatmap.2(tmp2[rowSums(tmp2)>minNeglog10Perc,],trace='none',col=rev(heat.colors(100)),#col=brewer.pal(5, "YlOrRd"),
               main='-log10(1-percentile(# of targets hit))\nrelative to THIS TFs with random targets',mar=c(8,8))
     dev.off()
   }
