@@ -73,9 +73,13 @@ all = unique(c(unique(unlist(lapply(out_bench,function(x) as.character(x$TF_sel$
 perf=list()
 for(i in 1:length(out_bench)){
 	inam = gsub('^n_','',strsplit(names(out_bench)[i],'\\.')[[1]])
+	# get p-values for the selection
 	p = p.adjust(1-out_bench[[i]]$TF_sel$cdf_spec,'fdr')
+	# get TFs corresponding to those p-values
 	TF = as.character(out_bench[[i]]$TF_sel$names)
+	# set scores to 1-p for observed TFs, assign 0 to missed TFs
 	predi = sapply(all,function(x) ifelse(x%in%TF,1-p[TF==x],0))
+	# set labels to 1=T, 0=F
 	labels = ifelse( all%in%lit,1,0)
 	pred <- prediction( predi, labels)
 	## precision/recall curve (x-axis: recall, y-axis: precision)
@@ -105,9 +109,13 @@ perf_n$method = factor(as.character(perf_n$method),levels=unique(perf_n$method))
 perf_compare=list()
 perf_compare$teQTL_1000 = perf$general_cholesterol_regulators.n_1000
 for(i in unique(enriched$study)){
+	# get p-values for the selection
 	p = enriched$Adjusted.P.value[ enriched$study==i ]
+	# get TFs corresponding to those p-values
 	TF = enriched$TF[ enriched$study==i ]
+	# set scores to 1-p for observed TFs, assign 0 to missed TFs
 	predi = sapply(all,function(x) ifelse(x%in%TF,1-p[TF==x],0))
+	# set labels to 1=T, 0=F
 	labels = ifelse( all%in%lit,1,0)
 	pred <- prediction( predi, labels)
 	## precision/recall curve (x-axis: recall, y-axis: precision)
