@@ -17,7 +17,11 @@ Input and Output for these examples can be found in the "examples" folder. Each 
 - <filename>.correlation.pdf contains the Spearman correlation between gene list and TF genes from the GTEx expression data.
 - <filename>.regressions.pdf is the first pass as most specifically describing the correlation between each target (generalist) and regulators (TFs) using multiple regression (univariate selection followed by backward model selection with interactions). These results are from a temporary implementation, later iteration with use the [RegressionPipeline](https://github.com/LewisLabUCSD/RegressionModelPipeline)
 
+
 ```R
+library(teQTLparse)
+library(openxlsx)
+
 # download GTEx PANDA tissues Rdata from: https://doi.org/10.5281/zenodo.838734
 load('GTEx_PANDA_tissues.RData')
 
@@ -25,30 +29,32 @@ out=list()
 #"Adipose_subcutaneous","Adipose_visceral","Adrenal_gland","Artery_aorta","Artery_coronary","Artery_tibial","Brain_other","Brain_cerebellum","Brain_basal_ganglia","Breast","Lymphoblastoid_cell_line","Fibroblast_cell_line","Colon_sigmoid","Colon_transverse","Gastroesophageal_junction","Esophagus_mucosa","Esophagus_muscularis","Heart_atrial_appendage","Heart_left_ventricle","Kidney_cortex","Liver","Lung","Minor_salivary_gland","Skeletal_muscle","Tibial_nerve","Ovary","Pancreas","Pituitary", "Prostate","Skin","Intestine_terminal_ileum","Spleen","Stomach","Testis","Thyroid","Uterus","Vagina","Whole_blood"
 tissues = c("Artery_aorta","Artery_coronary","Artery_tibial")
 
+iter=1000
+
 
 ########### Lysosome
-r = read.table('lysosome_genes.txt',sep='\t',header=T)
+r = read.table('teQTLparse/examples/Lysosome/lysosome_genes.txt',sep='\t',header=T)
 gl = r$To
 names(gl) = r$From
 
 out[['general_lysosome_regulators']] = init_teQTL( gl, tissues, edges , genes , netTS , expTS  ,
-                        minTS=0 , rand=n , onlyCanonical=T,filePrefix='general_lysosome_regulators')
+                        minTS=0 , rand=iter , onlyCanonical=T,filePrefix='general_lysosome_regulators')
 ########### Cholesterol
-r = read.table('cholesterol_biosynthesis.txt',sep='\t',header=T)
+r = read.table('teQTLparse/examples/Cholesterol/cholesterol_biosynthesis.txt',sep='\t',header=T)
 gl = r$To
 names(gl) = r$From
 
 out[['general_cholesterol_regulators']] = init_teQTL( gl, tissues, edges , genes , netTS , expTS  ,
-                        minTS=0 , rand=n , onlyCanonical=T,filePrefix='general_cholesterol_regulators')
+                        minTS=0 , rand=iter , onlyCanonical=T,filePrefix='general_cholesterol_regulators')
 
-########### Iron Metabolism
-r = read.table('Cellular_iron_msigdb.txt',sep='\t',header=F)
+########### Canonical Cancer Pathways (KEGG)
+r = read.table('teQTLparse/examples/Cancer/cancer.kegg.txt',sep='\t',header=T)
 colnames(r) = c('From','To','Species','LongName')
 gl = r$To
 names(gl) = r$From
 
 out[['Cellular_iron_regulators']] = init_teQTL( gl, tissues=c('liver'), edges , genes , netTS , expTS  ,
-                        minTS=0 , rand=n , onlyCanonical=T,filePrefix='Cellular_iron_regulators')
+                        minTS=0 , rand=iter , onlyCanonical=T,filePrefix='Cellular_iron_regulators')
 
 ######
 
@@ -69,3 +75,4 @@ for(n in names(out)){
 ### save
 save(out,file='tfs.rda')
 ```
+
