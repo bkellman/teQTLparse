@@ -123,15 +123,16 @@ for(i in unique(enriched$study)){
 		method=i)
 }
 
-perf_compare = do.call(rbind,perf_compare)
- ggplot(perf_compare,aes(color=method))+
+perf_compare_df = do.call(rbind,perf_compare)
+ ggplot(perf_compare_df,aes(color=method))+
  	geom_line(aes(x=recall,y=precision,size=f))
- ggplot(perf_compare,aes(color=method))+
+ ggplot(perf_compare_df,aes(color=method))+
  	geom_line(aes(x=tpr,y=fpr,size=mcc))
-  ggplot(perf_compare,aes(color=method))+
+  ggplot(perf_compare_df,aes(color=method))+
  	geom_line(aes(x=f,y=mcc))
 
 ###################################
 
 ##################################
 # teQTL v other , highlight if in CholTF
+
